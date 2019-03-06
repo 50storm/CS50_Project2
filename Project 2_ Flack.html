@@ -131,11 +131,15 @@ Finally, you’ll add a personal touch to your chat application of your choosing
 <h2 id="milestones">Milestones</h2>
 
 <p>We recommend that you try to meet the following milestones:</p>
+<p>以下のマイルストーンを満たすようにおすすめします:</p>
 
 <ul>
   <li>Complete the Display Name, Channel Creation, and Channel List steps.</li>
+  <li>表示名、チャネル作成、及び、チャネルリストのステップ段階の完了.</li>
   <li>Complete the Messages View and Sending Messages steps.</li>
+  <li>メッセージの閲覧と、メッセージの送信ステップ段階の完了.</li>
   <li>Complete the Remembering the Channel and Personal Touch steps.</li>
+  <li>チャネルとパーソナルタッチステップ段階の完了.</li>
 </ul>
 
 <h2 id="getting-started">Getting Started</h2>
@@ -175,34 +179,74 @@ requirements:</p>
 they should be prompted to type in a display name that will eventually be
 associated with every message the user sends. If a user closes the page and
 returns to your app later, the display name should still be remembered.</li>
+  <li><strong>表示名</strong>:あるユーザーがあなたのウェブアプリケーションに初めて訪れた時、彼らは、表示名をタイプするためのプロンプトが表示される。
+  表示名は、最終的に、すべてそのユーザーが送ったメッセージに関連づけされている。あるユーザーがそのページを閉じて、あなたのアプリケーションに戻ってきたら、
+  その表示名はそのまま記憶されているようにする。
+  .</li>
   <li><strong>Channel Creation</strong>: Any user should be able to create a new channel, so long
 as its name doesn’t conflict with the name of an existing channel.</li>
+  <li><strong>チャネル作成</strong>:どんなユーザーでも、新しいチャネルをできるようにすべきである。
+そのチャネルは、既存のチャネルと重複しないようにする。</li>
   <li><strong>Channel List</strong>: Users should be able to see a list of all current channels,
 and selecting one should allow the user to view the channel. We leave it to
 you to decide how to display such a list.</li>
+  <li><strong>チャネルリスト</strong>: ユーザーは現在のチャネルリストを見れるようにすべきである。一つを選ぶことは、
+  そのユーザーに許可する/ そのチャネルを閲覧するために。　
+  そのようなリストをどのように表示するかは、あなたにお任せします。
+  .</li>
   <li><strong>Messages View</strong>: Once a channel is selected, the user should see any
 messages that have already been sent in that channel, up to a maximum of 100
 messages. Your app should only store the 100 most recent messages per channel
 in server-side memory.</li>
+  <li><strong>メッセージ表示</strong>: いったんあるチャネルが選ばれたら、そのユーザーは、そのチャネルにすでに送られたどんなメッセージも見れるべきである。
+その最大メッセージ数は100とする。  
+あなたのアプリは、サーバーサイドのメモリー上に、100の最新のメッセージをチャネルごとにストアする。</li>
+
   <li><strong>Sending Messages</strong>: Once in a channel, users should be able to send text
 messages to others the channel. When a user sends a message, their display
 name and the timestamp of the message should be associated with the message.
 All users in the channel should then see the new message (with display name
 and timestamp) appear on their channel page. Sending and receiving messages
 should NOT require reloading the page.</li>
+
+  <li><strong>メッセージ送信について</strong>:
+  
+いったんチャンネルに入ると、ユーザーは、テキストメッセージをそのチェネルの他の人たちにメッセージを送れます。
+あるユーザーが、あるメッセージを送ったら、彼らの表示名とtimestampのメッセージは、メッセージに関連付けられる。
+そのチャネルにいるすべてのユーザーは、それから、新しいそのメッセージ（表示名とtimestampとともに）それらのチャネルページに現れる
+メッセージの送受信は、ページのリローディングを行うべきではない。</li>
+
   <li><strong>Remembering the Channel</strong>: If a user is on a channel page, closes the web
 browser window, and goes back to your web application, your application should
 remember what channel the user was on previously and take the user back to
 that channel.</li>
+
+  <li><strong>チャネルを覚えておくことについて</strong>: 
+  もし、チェネル上にあるユーザーがいて、ウェブブラウザウィンドウを閉じ、そして、あなたのウェブブラウザアプリケーションに戻ったら、
+  あなたの　アプリケーションは、そのユーザーが以前にいたどのチャネルを覚えてき、とユーザーをそのチャネルに戻すべきである。
+  </li>
+
   <li><strong>Personal Touch</strong>: Add at least one additional feature to your chat application
 of your choosing! Feel free to be creative, but if you’re looking for ideas,
 possibilities include: supporting deleting one’s own messages, supporting use
 attachments (file uploads) as messages, or supporting private messaging
 between two users.</li>
+
+  <li><strong>パーソナルタッチ</strong>: すくなくとも１つの追加の特徴をあなたの選んだチャットアプリケーションに追加する。
+  クリエイティブになって、しかし、もし、アイデアをさがしてるならば、可能性としては、自分のメッセージの削除、メッセージとしてのファイルの添付（アップロード）、
+  プライベートメッセージなどを含んでいる</li>
+
+
   <li>In <code class="highlighter-rouge">README.md</code>, include a short writeup describing your project, what’s
 contained in each file, and (optionally) any other additional information the
 staff should know about your project. Also, include a description of your
 personal touch and what you chose to add to the project.</li>
+
+  <li>In <code class="highlighter-rouge">README.md</code>,手短なあなたのプロジェクトについての表現を含み、
+  それぞれのファイルに何が含まれているのか、（オプションで）、どんな他のことも、あなたのプロジェクトについて、スタッフがしるべきこと。
+  また、パーソナルタッチについて、何を選んだのか、プロジェクトに追加したのかも書く。
+  </li>
+
   <li>If you’ve added any Python packages that need to be installed in order to run
 your web application, be sure to add them to <code class="highlighter-rouge">requirements.txt</code>!</li>
 </ul>
