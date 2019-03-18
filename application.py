@@ -13,7 +13,11 @@ votes = {"yes": 0, "no": 0, "maybe": 0}
 def index():
     return render_template("index.html", votes=votes)
 
-
+@socketio.on("submit join room")
+def join_room(data):
+    selection = data["selectRoom"]
+    print("selection " + selection)
+    
     
 @socketio.on("submit vote")
 def vote(data):

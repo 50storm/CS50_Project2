@@ -21,6 +21,19 @@
                 </div>
             </div>
         
+        
+             <form class="form-inline">
+                <div class="form-group">
+                <label class="roomLabel" for="rooms">roome：</label>
+                <select class="form-control" id="rooms">
+                    <option value="room01">room01</option>
+                    <option value="room02">room02</option>
+                </select>
+                
+                </div>
+                <button type="button" class="joinRoom btn btn-primary" id="joinButon">join</button>
+            </form>
+        
             <div class="row">
                 <div class="col-sm">
                     <div>Yes Votes: <span id="yes">{{ votes["yes"] }}</span></div>
