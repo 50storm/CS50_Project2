@@ -13,11 +13,13 @@ votes = {"yes": 0, "no": 0, "maybe": 0}
 def index():
     return render_template("index.html", votes=votes)
 
+
+    
 @socketio.on("submit vote")
 def vote(data):
     selection = data["selection"]
     votes[selection] += 1
     emit("vote totals", votes, broadcast=True)
 
-if __name__ == '__main__':
-    socketio.run(app)
+ # if __name__ == '__main__':
+ #    socketio.run(app)
