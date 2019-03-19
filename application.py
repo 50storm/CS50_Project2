@@ -37,12 +37,14 @@ def on_join(data):
     emit("join room message from server", msg, room=room)
  
 
-# @socketio.on("submit send message")
-# def join_room(data):
-    # print("==================================== join room========================================= ")
-    # message = data["message"]
+@socketio.on("send message")
+def on_message(data):
+    print("==================================== on_message ========================================= ")
+    room = data['room']
+    message = data["message"]
+    
     # print("message " + message)
-    # emit("message from server", message, broadcast=True)
+    emit("message from server", message, room=room)
     
     
 @socketio.on("submit vote")

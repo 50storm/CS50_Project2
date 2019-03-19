@@ -6,9 +6,9 @@ function setDisplayName(displayName){
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // let displayName = prompt("Input your display name!");
-    // setDisplayName(displayName);
-    // console.log(displayName);
+    let displayName = prompt("Input your display name!");
+    setDisplayName(displayName);
+    console.log(displayName);
 
 
     // Connect to websocket
@@ -21,6 +21,14 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(data['data']);
         }
         
+        let rooms = document.querySelector('#rooms');
+        for(let i=0; i<rooms.length; i++){
+              rooms[i].onclick = () => {
+                 alert(rooms[i].value);
+              };
+                            
+       }
+                
             
         // Each button should emit a "submit vote" event
         document.querySelectorAll('button').forEach(button => {
@@ -43,9 +51,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 
             }else if(button.id == 'sendMessage'){
                 button.onclick = () => {
+                    let room;
+                    let rooms = document.querySelector('#rooms');
+                    for(let i=0; i<rooms.length; i++){
+                        if(rooms.options[i].selected){
+                            room = rooms.options[i].value; break;
+                        }
+                    }
+                    
                     let message = document.querySelector('#message').value;
                     // alert(message);
-                    socket.emit('submit send message', {'message': message}); //送信
+                    socket.emit('send message', {'room': room, 'message': message}); //送信
                 };
             }
             
