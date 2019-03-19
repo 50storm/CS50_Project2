@@ -24,12 +24,24 @@ document.addEventListener('DOMContentLoaded', () => {
         let rooms = document.querySelector('#rooms');
         for(let i=0; i<rooms.length; i++){
               rooms[i].onclick = () => {
-                 alert(rooms[i].value);
+                 // alert(rooms[i].value);
+                    let room;
+                    let rooms = document.querySelector('#rooms');
+                    for(let i=0; i<rooms.length; i++){
+                        if(rooms.options[i].selected){
+                            room = rooms.options[i].value; break;
+                        }
+                    }
+                    let displayName = document.querySelector('#displayname').innerHTML;
+                    console.log( room );
+                    console.log( displayName );
+                    socket.emit('join', {'room': room, "displayName": displayName}); //送信
+                 
+                 
               };
                             
        }
-                
-            
+
         // Each button should emit a "submit vote" event
         document.querySelectorAll('button').forEach(button => {
             if(button.id == 'joinButon'){

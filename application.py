@@ -33,7 +33,7 @@ def on_join(data):
     display_name = data['displayName']
     room = data['room']
     join_room(room)
-    msg =  str(display_name)  + ' has entered the room.'
+    msg =  str(display_name)  + ' has entered ' + room
     emit("join room message from server", msg, room=room)
  
 
