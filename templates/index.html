@@ -11,38 +11,31 @@
     
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         
-        <title>Vote</title>
+        <title>Flack</title>
     </head>
     <body>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm">
-                    <div id="displayname" >Display Name </div>
+                    <div id="displayname" >John</div>
                 </div>
             </div>
-        
-        
-             <form class="form-inline">
+            <form class="form-inline">
                 <div class="form-group">
-                <label class="roomLabel" for="rooms">roome：</label>
+                <label class="roomLabel" for="rooms">room：</label>
                 <select class="form-control" id="rooms">
                     <option value="room01">room01</option>
                     <option value="room02">room02</option>
                 </select>
-                
                 </div>
-                <button type="button" class="joinRoom btn btn-primary" id="joinButon">join</button>
+                <button type="button" class=" btn btn-primary" id="joinButon">join</button>
+                
+                <input type="text"  id="message" value="test" / >
+                <button type="button" class=" btn btn-primary" id="sendMessage">send</button>
             </form>
-        
             <div class="row">
                 <div class="col-sm">
-                    <div>Yes Votes: <span id="yes">{{ votes["yes"] }}</span></div>
-                    <div>No Votes: <span id="no">{{ votes["no"] }}</span></div>
-                    <div>Maybe Votes: <span id="maybe">{{ votes["maybe"] }}<span></div>
-                    <hr>
-                    <button data-vote="yes">Yes</button>
-                    <button data-vote="no">No</button>
-                    <button data-vote="maybe">Maybe</button>
+                    <div id="receivedMessage"> </div>
                 </div>
             </div>
         </div>
