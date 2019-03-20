@@ -1,4 +1,10 @@
 
+function createRoom(newRoomName){
+    
+    
+    
+}
+
 
 function setDisplayName(displayName){
     document.querySelector('#displayname').innerHTML = '<span class="text-info">' + displayName + '</span>';
@@ -60,6 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log( displayName );
                     socket.emit('join', {'room': room, "displayName": displayName}); //送信
                 };    
+            }else if(button.id == "brnCreateRoom"){
+                button.onclick = () => {
+                    let newRoomName = document.querySelector('#txtNewRoomName').value;
+                    createRoom( newRoomName );
+                };
                 
             }else if(button.id == 'sendMessage'){
                 button.onclick = () => {
