@@ -7,17 +7,10 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
-votes = {"yes": 0, "no": 0, "maybe": 0}
 
 @app.route("/")
 def index():
     return render_template("index.html", votes=votes)
-
-# @socketio.on("submit join room")
-# def on_room(data):
-    # selection = data["selectRoom"]
-    # print("selection " + selection)
-    # join_room(room);
 
 @socketio.on('connect')
 def on_connect():

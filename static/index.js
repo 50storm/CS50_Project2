@@ -1,14 +1,16 @@
 
 function createRoom(newRoomName){
-    
-    
-    
+    let rooms = document.querySelector('#rooms');
+    let newList = document.createElement('li');
+    newList.innerText = newRoomName;
+    rooms.append( newList );
 }
 
 
 function setDisplayName(displayName){
     document.querySelector('#displayname').innerHTML = '<span class="text-info">' + displayName + '</span>';
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -21,50 +23,27 @@ document.addEventListener('DOMContentLoaded', () => {
     let rooms = document.querySelector('#rooms');
     let lists = rooms.children;
     for(let i=0; i<lists.length; i++){
-             let li = lists[i];
-             console.log(li);
-             li.onclick = (e) => {
-                  console.log(li.innerText);  
-                  
-                  let rooms = document.querySelector('#rooms');
-                  let lists = rooms.children;
-                  for(let i=0; i<lists.length; i++){
-                    let re = /(selected)/;
-                    let li = lists[i];
-                    let boolResult = re.test(li.className);
-                        console.log("boolResult " + boolResult);
-                    if(boolResult){
-                        li.classList.remove('selected','text-info');
-                    }
-                  }
-
-                  li.classList.add('selected','text-info');
-                  
-                  let room = li.innerText;
-
-                  let displayName = document.querySelector('#displayname').innerHTML;
-                  socket.emit('join', {'room': room, "displayName": displayName}); //送信
-                 
-             }
-             // rooms[i].onclick = () => {
-             //    
-             //    
-             //       let room;
-             //       let rooms = document.querySelector('#rooms');
-             //       for(let i=0; i<rooms.length; i++){
-             //           if(rooms.options[i].selected){
-             //               room = rooms.options[i].value; break;
-             //           }
-             //       }
-             //       let displayName = document.querySelector('#displayname').innerHTML;
-             //       console.log( room );
-             //       console.log( displayName );
-             //       socket.emit('join', {'room': room, "displayName": displayName}); //送信
-             //    
-             //    
-             // };
-                            
-       }
+        let li = lists[i];
+        console.log(li);
+        li.onclick = (e) => {
+            console.log(li.innerText);  
+            let rooms = document.querySelector('#rooms');
+            let lists = rooms.children;
+            for(let i=0; i<lists.length; i++){
+                let re = /(selected)/;
+                let li = lists[i];
+                let boolResult = re.test(li.className);
+                    console.log("boolResult " + boolResult);
+                if(boolResult){
+                    li.classList.remove('selected','text-info');
+                }
+            }
+            li.classList.add('selected','text-info');
+            let room = li.innerText;
+            let displayName = document.querySelector('#displayname').innerHTML;
+            socket.emit('join', {'room': room, "displayName": displayName}); //送信                 
+        }
+    }
        
     
 
@@ -82,23 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Each button should emit a "submit vote" event
         document.querySelectorAll('button').forEach(button => {
-            if(button.id == 'joinButon'){
-                console.log(button.id);
-                button.onclick = () => {
-                   
-                    let room;
-                    let rooms = document.querySelector('#rooms');
-                    for(let i=0; i<rooms.length; i++){
-                        if(rooms.options[i].selected){
-                            room = rooms.options[i].value; break;
-                        }
-                    }
-                    let displayName = document.querySelector('#displayname').innerHTML;
-                    console.log( room );
-                    console.log( displayName );
-                    socket.emit('join', {'room': room, "displayName": displayName}); //送信
-                };    
-            }else if(button.id == "btnCreateRoom"){
+            if(button.id == "btnCreateRoom"){
                 button.onclick = () => {
                     let newRoomName = document.querySelector('#txtNewRoomName').value;
                     createRoom( newRoomName );
@@ -106,13 +69,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 
             }else if(button.id == 'sendMessage'){
                 button.onclick = () => {
-                    let room;
                     let rooms = document.querySelector('#rooms');
-                    for(let i=0; i<rooms.length; i++){
-                        if(rooms.options[i].selected){
-                            room = rooms.options[i].value; break;
+                    let lists = rooms.children;
+                    let room;
+                    for(let i=0; i<lists.length; i++){
+                        let re = /(selected)/;
+                        let li = lists[i];
+                            
+                        if( re.test(li.className) ){
+                            room = li.innerText;
                         }
                     }
+                    
                     
                     let message = document.querySelector('#message').value;
                     // alert(message);
