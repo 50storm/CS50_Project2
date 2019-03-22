@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
-        <script src="{{ url_for('static', filename='index.js') }}"></script>
+<!-- saved from url=(0022)http://127.0.0.1:5000/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript" src="./Flack_files/socket.io.min.js.download"></script>
         
+        
+	
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
     
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        
+    
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
         <title>Flack</title>
     </head>
     <body>
@@ -26,23 +27,23 @@
                 </div>
             </div>
             
-            <div class="row">
-                <div class="col-sm-2  bg-light">
+            <div class="row sidebar">
+                <div class="col-sm-2">
                     <h1>Channel</h1>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                     New Room
                     </button>
-                    <ul class="" id="rooms">
-                        <li>room01</li>
-                        <li>room02</li>
-                        <li>room03</li>
-                        <li>room04</li>
-                        <li>room05</li>
-                        <li>room06</li>
-                        <li>room07</li>
-                        <li>room08</li>
-                        <li>room09</li>
-                        <li>room10</li>
+                    <ul class="" id="rooms" size="10">
+                        <li value="room01">room01</li>
+                        <li value="room02">room02</li>
+                        <li value="room03">room03</li>
+                        <li value="room04">room04</li>
+                        <li value="room05">room05</li>
+                        <li value="room06">room06</li>
+                        <li value="room07">room07</li>
+                        <li value="room08">room08</li>
+                        <li value="room09">room09</li>
+                        <li value="room10">room10</li>
                     </ul>
                 </div>
                 <div class="col-sm">
@@ -79,6 +80,7 @@
                 </div>
             </div>
             </div>
+            
         </div>
-    </body>
-</html>
+    
+</body></html>

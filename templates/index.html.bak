@@ -17,41 +17,39 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm">
-                    <div id="displayname"><span class="text-info">AAAA</span></div>
+                    <div id="displayname" >John</div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-sm">
-
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col-sm-2  bg-light">
-                    <h1>Channel</h1>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    New Room
-                    </button>
-                    <ul class="" id="rooms">
-                        <li>room01</li>
-                        <li>room02</li>
-                        <li>room03</li>
-                        <li>room04</li>
-                        <li>room05</li>
-                        <li>room06</li>
-                        <li>room07</li>
-                        <li>room08</li>
-                        <li>room09</li>
-                        <li>room10</li>
-                    </ul>
-                </div>
-                <div class="col-sm">
-                    <div id="receivedMessage"> </div>
-                    <input type="text" id="message" value="test">
-                    <button type="button" class=" btn btn-primary" id="sendMessage">send</button>
+            <form class="form">
+                <div class="form-group">
+                        <input type="text"  id="txtNewRoomName" value="" / >
+                        <button type="button" class=" btn btn-primary" id="btnCreateRoom">create Room</button>
                 
                 </div>
-            </div>
+                <div class="form-group">
+                <!-- <label class="roomLabel form-control" for="rooms">room：</label> -->
+                <ul class="form-control" id="rooms"  size="10">
+                    <li value="room01">room01</li>
+                    <li value="room02">room02</li>
+                    <li value="room03">room03</li>
+                    <li value="room04">room04</li>
+                    <li value="room05">room05</li>
+                    <li value="room06">room06</li>
+                    <li value="room07">room07</li>
+                    <li value="room08">room08</li>
+                    <li value="room09">room09</li>
+                    <li value="room10">room10</li>
+                </ul>
+                </div>
+                
+
+                <br>
+                <button type="button" class=" btn btn-primary" id="joinButon">join</button>
+                
+                
+                <input type="text"  id="message" value="test" / >
+                <button type="button" class=" btn btn-primary" id="sendMessage">send</button>
+            </form>
             <div class="row">
                 <div class="col-sm">
                     <div id="receivedMessage"> </div>

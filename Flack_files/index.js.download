@@ -16,57 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setDisplayName(displayName);
     console.log(displayName);
 
-    
-    
-    let rooms = document.querySelector('#rooms');
-    let lists = rooms.children;
-    for(let i=0; i<lists.length; i++){
-             let li = lists[i];
-             console.log(li);
-             li.onclick = (e) => {
-                  console.log(li.innerText);  
-                  
-                  let rooms = document.querySelector('#rooms');
-                  let lists = rooms.children;
-                  for(let i=0; i<lists.length; i++){
-                    let re = /(selected)/;
-                    let li = lists[i];
-                    let boolResult = re.test(li.className);
-                        console.log("boolResult " + boolResult);
-                    if(boolResult){
-                        li.classList.remove('selected','text-info');
-                    }
-                  }
-
-                  li.classList.add('selected','text-info');
-                  
-                  let room = li.innerText;
-
-                  let displayName = document.querySelector('#displayname').innerHTML;
-                  socket.emit('join', {'room': room, "displayName": displayName}); //送信
-                 
-             }
-             // rooms[i].onclick = () => {
-             //    
-             //    
-             //       let room;
-             //       let rooms = document.querySelector('#rooms');
-             //       for(let i=0; i<rooms.length; i++){
-             //           if(rooms.options[i].selected){
-             //               room = rooms.options[i].value; break;
-             //           }
-             //       }
-             //       let displayName = document.querySelector('#displayname').innerHTML;
-             //       console.log( room );
-             //       console.log( displayName );
-             //       socket.emit('join', {'room': room, "displayName": displayName}); //送信
-             //    
-             //    
-             // };
-                            
-       }
-       
-    
 
     // Connect to websocket
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
@@ -78,7 +27,33 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log(data['data']);
         }
         
-
+        let rooms = document.querySelector('#rooms');
+        for(let i=0; i<rooms.length; i++){
+              rooms[i].onclick = () => {
+                 // alert(rooms[i].value);
+                    let room;
+                    let rooms = document.querySelector('#rooms');
+                    for(let i=0; i<rooms.length; i++){
+                        if(rooms.options[i].selected){
+                            room = rooms.options[i].value; break;
+                        }
+                    }
+                    let displayName = document.querySelector('#displayname').innerHTML;
+                    console.log( room );
+                    console.log( displayName );
+                    socket.emit('join', {'room': room, "displayName": displayName}); //送信
+                 
+                 
+              };
+                            
+       }
+       
+       document.querySelector('#btnCreateRoom').onclick = ()=>{
+                    let newRoomName = document.querySelector('#txtNewRoomName').value;
+                    createRoom( newRoomName );
+           
+           
+       };
 
         // Each button should emit a "submit vote" event
         document.querySelectorAll('button').forEach(button => {
