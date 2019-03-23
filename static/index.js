@@ -14,9 +14,17 @@ function setDisplayName(displayName){
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    let displayName = prompt("Input your display name!");
+    var displayName;
+    displayName  = localStorage.getItem("displayName");
+    if(displayName == null){
+        displayName = prompt("Input your display name!");
+        console.log(displayName);
+        localStorage.setItem('displayName', displayName);
+    
+    }
     setDisplayName(displayName);
-    console.log(displayName);
+    
+
 
     
     

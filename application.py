@@ -10,7 +10,7 @@ socketio = SocketIO(app)
 
 @app.route("/")
 def index():
-    return render_template("index.html", votes=votes)
+    return render_template("index.html")
 
 @socketio.on('connect')
 def on_connect():
