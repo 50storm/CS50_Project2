@@ -4,11 +4,23 @@ var socket = io.connect(location.protocol + '//' + document.domain + ':' + locat
     
 function createRoom(newRoomName){
     let rooms = document.querySelector('#rooms');
+    let lists = rooms.children;
     let newList = document.createElement('li');
+    
+    for(let i=0; i < lists.length; i++){
+        
+        if (lists[i].innerText == newRoomName){
+            alert(newRoomName.toString() + "  already exists. ");
+            return false;            
+        }
+    }
+    
     
     newList.innerText = newRoomName;
     rooms.append( newList );
     addClickEventToRoomList();
+    
+    return true;
 }
 
 function setDisplayName(displayName){
@@ -19,6 +31,7 @@ function removeClieckEventToRoomList(){
     
     
 }
+
 
 function addClickEventToRoomList(){
     let rooms = document.querySelector('#rooms');
@@ -66,16 +79,21 @@ document.addEventListener('DOMContentLoaded', () => {
     
     addClickEventToRoomList();
     
+    document.querySelector('#btnCreateRoom').onclick = () => {
+                    let newRoomName = document.querySelector('#txtNewRoomName').value;
+                    createRoom( newRoomName );
+                };
+    
     // Each button should emit a "submit vote" event
     document.querySelectorAll('button').forEach(button => {
             
             console.log("button.id " + button.id);
             
             if(button.id == "btnCreateRoom"){
-                button.onclick = () => {
-                    let newRoomName = document.querySelector('#txtNewRoomName').value;
-                    createRoom( newRoomName );
-                };
+                // button.onclick = () => {
+                    // let newRoomName = document.querySelector('#txtNewRoomName').value;
+                    // createRoom( newRoomName );
+                // };
                 
             }else if(button.id == 'sendMessage'){
                 button.onclick = () => {
