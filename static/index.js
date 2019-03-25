@@ -1,39 +1,34 @@
-
+// Connect to websocket
+var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+    
+    
 function createRoom(newRoomName){
     let rooms = document.querySelector('#rooms');
     let newList = document.createElement('li');
+    
     newList.innerText = newRoomName;
     rooms.append( newList );
+    addClickEventToRoomList();
 }
-
 
 function setDisplayName(displayName){
     document.querySelector('#displayname').innerHTML = '<span class="text-info">' + displayName + '</span>';
 }
 
-
-document.addEventListener('DOMContentLoaded', () => {
-
-    var displayName;
-    displayName  = localStorage.getItem("displayName");
-    if(displayName == null){
-        displayName = prompt("Input your display name!");
-        console.log(displayName);
-        localStorage.setItem('displayName', displayName);
-    
-    }
-    setDisplayName(displayName);
-    
-
-
+function removeClieckEventToRoomList(){
     
     
+}
+
+function addClickEventToRoomList(){
     let rooms = document.querySelector('#rooms');
     let lists = rooms.children;
     for(let i=0; i<lists.length; i++){
         let li = lists[i];
         console.log(li);
-        li.onclick = (e) => {
+       
+        // li.addEventListener("click", (e) => {
+        li.onclick =(e) => {
             console.log(li.innerText);  
             let rooms = document.querySelector('#rooms');
             let lists = rooms.children;
@@ -50,25 +45,32 @@ document.addEventListener('DOMContentLoaded', () => {
             let room = li.innerText;
             let displayName = document.querySelector('#displayname').innerHTML;
             socket.emit('join', {'room': room, "displayName": displayName}); //送信                 
-        }
+        };
+        // });
+
     }
-       
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    var displayName;
+    displayName  = localStorage.getItem("displayName");
+    if(displayName == null){
+        displayName = prompt("Input your display name!");
+        console.log(displayName);
+        localStorage.setItem('displayName', displayName);
     
-
-    // Connect to websocket
-    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
-
-    // When connected, configure buttons
-    socket.on('connect', (data) => {
-        console.log('connect');
-        if(data !== undefined){
-            console.log(data['data']);
-        }
-        
-
-
-        // Each button should emit a "submit vote" event
-        document.querySelectorAll('button').forEach(button => {
+    }
+    setDisplayName(displayName);
+    
+    addClickEventToRoomList();
+    
+    // Each button should emit a "submit vote" event
+    document.querySelectorAll('button').forEach(button => {
+            
+            console.log("button.id " + button.id);
+            
             if(button.id == "btnCreateRoom"){
                 button.onclick = () => {
                     let newRoomName = document.querySelector('#txtNewRoomName').value;
@@ -96,9 +98,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
             }
             
-        });
+    });
+    
+    
+    // When connected, configure buttons
+    socket.on('connect', (data) => {
+        console.log('connect');
+        if(data !== undefined){
+            console.log(data['data']);
+        }
 
-        
     });
 
     socket.on('message from server', data => {
@@ -114,12 +123,5 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#receivedMessage').innerHTML += data + "<br />";
         
     });
-    
-    
-    // When a new vote is announced, add to the unordered list
-    socket.on('vote totals', data => {
-        document.querySelector('#yes').innerHTML = data.yes;
-        document.querySelector('#no').innerHTML = data.no;
-        document.querySelector('#maybe').innerHTML = data.maybe;
-    });
+ 
 });
