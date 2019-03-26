@@ -18,7 +18,7 @@ String.prototype.trim = function () {
     // 以下でも同じ。
     //return this.replace(/^( |　)+|( |　)+$/g, "");
 }
-
+var currentRoom="";
 
 // Connect to websocket
 var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
@@ -57,7 +57,16 @@ function setDisplayName(displayName){
     document.querySelector('#displayname').innerHTML = '<span class="text-info">' + displayName + '</span>';
 }
 
-
+function clearMessage(){
+    let receviedMeaage =  document.querySelector('#receivedMessage');
+    let messages = receviedMeaage.children;
+    if (messages.length != 0 ){
+        while (receviedMeaage.firstChild) {
+            receviedMeaage.removeChild(receviedMeaage.firstChild)
+        }
+    }
+    
+}
 
 function addClickEventToRoomList(){
     let rooms = document.querySelector('#rooms');
@@ -69,6 +78,12 @@ function addClickEventToRoomList(){
         // li.addEventListener("click", (e) => {
         li.onclick =(e) => {
             console.log(li.innerText);  
+
+            if (currentRoom !== li.innerText){
+                clearMessage();
+                currentRoom = li.innerText;
+            }
+
             let rooms = document.querySelector('#rooms');
             let lists = rooms.children;
             for(let i=0; i<lists.length; i++){
@@ -81,9 +96,8 @@ function addClickEventToRoomList(){
                 }
             }
             li.classList.add('selected','text-info');
-            let room = li.innerText;
             let displayName = document.querySelector('#displayname').innerHTML;
-            socket.emit('join', {'room': room, "displayName": displayName}); //送信                 
+            socket.emit('join', { 'room': currentRoom, "displayName": displayName}); //送信                 
         };
         // });
     }
