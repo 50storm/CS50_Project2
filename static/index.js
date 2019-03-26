@@ -1,3 +1,25 @@
+//=============================
+// 先頭の空白を削除
+//=============================
+String.prototype.ltrim = function () {
+    return this.replace(/^\s+/, "");
+}
+//=============================
+// 末尾の空白を削除
+//=============================
+String.prototype.rtrim = function () {
+    return this.replace(/\s+$/, "");
+}
+//=============================
+// 先頭および末尾の空白を削除
+//=============================
+String.prototype.trim = function () {
+    return this.replace(/^\s+|\s+$/g, "");
+    // 以下でも同じ。
+    //return this.replace(/^( |　)+|( |　)+$/g, "");
+}
+
+
 // Connect to websocket
 var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
@@ -10,7 +32,13 @@ function getRoomList(){
 function createRoom(newRoomName){
     let lists = getRoomList();
     let newList = document.createElement('li');
-    
+    newRoomName = newRoomName.trim();
+    if (newRoomName == ""){
+        alert("Input room name!");
+        return false;
+
+    }
+
     for(let i=0; i < lists.length; i++){
         if (lists[i].innerText == newRoomName){
             alert(newRoomName.toString() + "  already exists. ");
