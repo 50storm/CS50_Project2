@@ -1,20 +1,22 @@
 // Connect to websocket
 var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
-    
-    
+
+function getRoomList(){
+    let ulRooms = document.querySelector('#rooms');
+    let roomList = ulRooms.children;    
+    return roomList;
+}
+
 function createRoom(newRoomName){
-    let rooms = document.querySelector('#rooms');
-    let lists = rooms.children;
+    let lists = getRoomList();
     let newList = document.createElement('li');
     
     for(let i=0; i < lists.length; i++){
-        
         if (lists[i].innerText == newRoomName){
             alert(newRoomName.toString() + "  already exists. ");
             return false;            
         }
     }
-    
     
     newList.innerText = newRoomName;
     rooms.append( newList );
@@ -27,10 +29,6 @@ function setDisplayName(displayName){
     document.querySelector('#displayname').innerHTML = '<span class="text-info">' + displayName + '</span>';
 }
 
-function removeClieckEventToRoomList(){
-    
-    
-}
 
 
 function addClickEventToRoomList(){
@@ -60,15 +58,40 @@ function addClickEventToRoomList(){
             socket.emit('join', {'room': room, "displayName": displayName}); //送信                 
         };
         // });
-
     }
 }
 
+function saveRoomsInLocalStorage(){
+    let roomList = getRoomList();
+    let roomListArray = [];
+    for (let i = 0; i < roomList.length; i++) {
+        roomListArray.push(roomList[i].innerText);
+    }
+
+    localStorage.setItem('roomList', roomListArray);
+
+    //debug
+    console.log(localStorage.getItem("roomList"));
+}
+
+function restoreRooms(){
+    let ulRooms = document.querySelector('#rooms');
+    let roomList = getRoomList();
+    while (ulRooms.firstChild) {
+        ulRooms.removeChild(ulRooms.firstChild);
+
+    }
+    let savedRoomNameList = localStorage.getItem("roomList").split(",");
+    for (let i = 0; i<savedRoomNameList.length; i++ ){
+        let li = document.createElement('li');
+        li.innerText = savedRoomNameList[i];
+        ulRooms.append(li);
+    }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    var displayName;
-    displayName  = localStorage.getItem("displayName");
+    let displayName = localStorage.getItem("displayName");
     if(displayName == null){
         displayName = prompt("Input your display name!");
         console.log(displayName);
@@ -76,29 +99,17 @@ document.addEventListener('DOMContentLoaded', () => {
     
     }
     setDisplayName(displayName);
-    
+    saveRoomsInLocalStorage();
+    restoreRooms();
     addClickEventToRoomList();
-    
+
     document.querySelector('#btnCreateRoom').onclick = () => {
                     let newRoomName = document.querySelector('#txtNewRoomName').value;
                     createRoom( newRoomName );
-                };
+    };
     
-    // Each button should emit a "submit vote" event
-    document.querySelectorAll('button').forEach(button => {
-            
-            console.log("button.id " + button.id);
-            
-            if(button.id == "btnCreateRoom"){
-                // button.onclick = () => {
-                    // let newRoomName = document.querySelector('#txtNewRoomName').value;
-                    // createRoom( newRoomName );
-                // };
-                
-            }else if(button.id == 'sendMessage'){
-                button.onclick = () => {
-                    let rooms = document.querySelector('#rooms');
-                    let lists = rooms.children;
+    document.querySelector('#sendMessage').onclick = () => {
+                    let lists = getRoomList();
                     let room;
                     for(let i=0; i<lists.length; i++){
                         let re = /(selected)/;
@@ -109,15 +120,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                     
-                    
                     let message = document.querySelector('#message').value;
                     // alert(message);
                     socket.emit('send message', {'room': room, 'message': message}); //送信
-                };
-            }
-            
-    });
-    
+    };
     
     // When connected, configure buttons
     socket.on('connect', (data) => {
