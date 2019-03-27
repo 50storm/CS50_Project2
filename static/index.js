@@ -183,11 +183,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
     });
     
-    socket.on('join room message from server', (data, data2) => {
-        console.log(data);
-        console.log(data2);
-        document.querySelector('#receivedMessage').innerHTML += data2['room01'] + "<br />";
-        document.querySelector('#receivedMessage').innerHTML += data + "<br />";
+    socket.on('join room message from server', (msg, chat_data, room) => {
+
+        if (Object.keys(chat_data).length !== 0) {
+            document.querySelector('#receivedMessage').innerHTML += chat_data[ room ] + "<br />";
+        }
+
+        
+        document.querySelector('#receivedMessage').innerHTML += msg + "<br />";
         
         
     });

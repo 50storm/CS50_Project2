@@ -36,7 +36,7 @@ def on_join(data):
 
 
     #  msg=<span class="text-info"></span> has entered room01  chat_data={room: "room01", message: "test"}
-    emit("join room message from server", (msg, chat_data), room=room)
+    emit("join room message from server", (msg, chat_data, room), room=room)
     
  
 
