@@ -162,6 +162,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     }
                     
+                    if(room === undefined){
+                        alert("Please select room!");
+                        return ;
+                        
+                    }
+                    
                     let message = document.querySelector('#message').value;
                     // alert(message);
                     socket.emit('send message', {'room': room, 'message': message}); //送信
@@ -191,8 +197,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         
         document.querySelector('#receivedMessage').innerHTML += msg + "<br />";
-        
-        
+
     });
  
 });

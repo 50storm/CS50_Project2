@@ -9,6 +9,7 @@ socketio = SocketIO(app)
 
 # chat_data = {"room": "", "message": "" }
 chat_data={}
+room="";
 
 @app.route("/")
 def index():
@@ -27,13 +28,13 @@ def on_join(data):
     # print(data2)
     display_name = data['displayName']
     room = data['room']
-    join_room(room)
-    msg =  str(display_name)  + ' has entered ' + room
+    print("room " + str(room))
     
-    # for key in chat_data :
-    #     if(key === romm):
-    #         chat_data[ key ]
-
+    
+    join_room(room)
+    
+    
+    msg =  str(display_name)  + ' has entered ' + room
 
     #  msg=<span class="text-info"></span> has entered room01  chat_data={room: "room01", message: "test"}
     emit("join room message from server", (msg, chat_data, room), room=room)
@@ -43,6 +44,7 @@ def on_join(data):
 @socketio.on("send message")
 def on_message(data):
     print("==================================== on_message ========================================= ")
+    print(data)
     room = data['room']
     message = data["message"]
     
