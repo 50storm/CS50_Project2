@@ -134,7 +134,7 @@ function restoreRooms(){
 document.addEventListener('DOMContentLoaded', () => {
 
     let displayName = localStorage.getItem("displayName");
-    if(displayName == null){
+    if( displayName == null || displayName =="" ){
         displayName = prompt("Input your display name!");
         console.log(displayName);
         localStorage.setItem('displayName', displayName);
@@ -183,10 +183,12 @@ document.addEventListener('DOMContentLoaded', () => {
         
     });
     
-    socket.on('join room message from server', data => {
+    socket.on('join room message from server', (data, data2) => {
         console.log(data);
-        
+        console.log(data2);
+        document.querySelector('#receivedMessage').innerHTML += data2['room01'] + "<br />";
         document.querySelector('#receivedMessage').innerHTML += data + "<br />";
+        
         
     });
  
