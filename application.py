@@ -29,10 +29,12 @@ def on_join(data):
     # print(data2)
     display_name = data['displayName']
     room = data['room']
+    now = datetime.datetime.now()
+    str_now = now.strftime("%Y/%m/%d %H:%M:%S")
     
     print("room => " + str(room))
     join_room(room)
-    msg =  str(display_name)  + ' has entered ' + room
+    msg =  str(display_name)  + ' has entered ' + room + " " + str_now
 
     
        
