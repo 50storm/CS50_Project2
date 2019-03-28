@@ -1,3 +1,10 @@
+/*
+broadcaset=>roomに関係なく送信
+
+TODO:join roomしたときに、表示が全員にされてるぞい。。
+
+*/
+
 //=============================
 // 先頭の空白を削除
 //=============================
@@ -190,14 +197,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     
     socket.on('join room message from server', (msg, chat_data, room) => {
-
-        if (Object.keys(chat_data).length !== 0) {
-            document.querySelector('#receivedMessage').innerHTML += chat_data[ room ] + "<br />";
+        if(room === currentRoom){
+            if (Object.keys(chat_data).length !== 0) {
+                document.querySelector('#receivedMessage').innerHTML += chat_data[ room ] + "<br />";
+            }
+            document.querySelector('#receivedMessage').innerHTML += msg + "<br />";
         }
-
         
-        document.querySelector('#receivedMessage').innerHTML += msg + "<br />";
-
     });
  
 });

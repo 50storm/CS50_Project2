@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, jsonify, render_template, request
-from flask_socketio import SocketIO, emit, join_room, leave_room
+from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
