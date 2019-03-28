@@ -26,6 +26,7 @@ String.prototype.trim = function () {
     //return this.replace(/^( |　)+|( |　)+$/g, "");
 }
 var currentRoom="";
+var displayName="";
 
 // Connect to websocket
 var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
@@ -140,7 +141,7 @@ function restoreRooms(){
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    let displayName = localStorage.getItem("displayName");
+    displayName = localStorage.getItem("displayName");
     if( displayName == null || displayName =="" ){
         displayName = prompt("Input your display name!");
         console.log(displayName);
@@ -183,7 +184,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     let message = document.querySelector('#message').value;
                     // alert(message);
-                    socket.emit('send message', {'room': room, 'message': message}); //送信
+                    // socket.emit('send message', {'room': room, 'message': message}); //送信
+                    socket.emit('send message', {'room': room, 'message': message, 'displayName': displayName}); //送信
     };
     
     // When connected, configure buttons

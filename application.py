@@ -61,7 +61,8 @@ def on_message(data):
     now = datetime.datetime.now()
     str_now = now.strftime("%Y/%m/%d %H:%M:%S")
     room = data['room']
-    message = data["message"]  + " " + str_now
+    displayName = data['displayName']
+    message = displayName + " " + data["message"]  + " " + str_now
     
     
     if room in chat_data.keys() :
