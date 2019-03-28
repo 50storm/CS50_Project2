@@ -152,6 +152,12 @@ document.addEventListener('DOMContentLoaded', () => {
     restoreRooms();
     addClickEventToRoomList();
 
+    
+    // document.querySelector('#btnShowRooms').onclick = () => {
+        // socket.emit('show rooms', { 'diplayName': localStorage.getItem("displayName") }); //送信
+        
+    // };
+    
     document.querySelector('#btnCreateRoom').onclick = () => {
                     let newRoomName = document.querySelector('#txtNewRoomName').value;
                     createRoom( newRoomName );
