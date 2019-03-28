@@ -104,7 +104,8 @@ function addClickEventToRoomList(){
                 }
             }
             li.classList.add('selected','text-info');
-            let displayName = document.querySelector('#displayname').innerHTML;
+            // let displayName = document.querySelector('#displayname').innerHTML;
+            
             socket.emit('join', { 'room': currentRoom, "displayName": displayName}); //送信                 
         };
         // });
