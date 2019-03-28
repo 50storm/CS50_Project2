@@ -29,10 +29,22 @@ def on_join(data):
     # print(data2)
     display_name = data['displayName']
     room = data['room']
-    print("room " + str(room))
+    
+    print("room => " + str(room))
     join_room(room)
     msg =  str(display_name)  + ' has entered ' + room
 
+    
+       
+    if not room in chat_data.keys() :
+        chat_data[room] = ""
+    
+    # for k in chat_data:
+        # print("key =>" + k)
+        # print("chat_data =>" + chat_data[k])
+
+    # room_message = chat_data[room]
+    # print("room_message => "  +  room_message)
     #  msg=<span class="text-info"></span> has entered room01  chat_data={room: "room01", message: "test"}
     emit("join room message from server", (msg, chat_data, room), room=room)
 
