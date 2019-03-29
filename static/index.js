@@ -208,7 +208,9 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('join room message from server', (msg, chat_data, room) => {
         if(room === currentRoom){
             if (Object.keys(chat_data).length !== 0) {
-                document.querySelector('#receivedMessage').innerHTML += chat_data[ room ] + "<br />";
+                if(chat_data[ room ] !== ""){
+                    document.querySelector('#receivedMessage').innerHTML += chat_data[ room ] + "<br />";
+                }
             }
             document.querySelector('#receivedMessage').innerHTML += msg + "<br />";
         }
