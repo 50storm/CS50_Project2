@@ -140,6 +140,11 @@ function restoreRooms(){
     }
 }
 
+window.addEventListener('beforeunload',()=>{
+    saveRoomsInLocalStorage();
+});
+    
+
 document.addEventListener('DOMContentLoaded', () => {
 
     displayName = localStorage.getItem("displayName");
@@ -150,11 +155,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     }
     setDisplayName(displayName);
-    saveRoomsInLocalStorage();
+    // saveRoomsInLocalStorage();
     restoreRooms();
     addClickEventToRoomList();
-
     
+
     // document.querySelector('#btnShowRooms').onclick = () => {
         // socket.emit('show rooms', { 'diplayName': localStorage.getItem("displayName") }); //送信
         
