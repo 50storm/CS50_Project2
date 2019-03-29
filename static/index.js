@@ -37,8 +37,19 @@ function getRoomList(){
     return roomList;
 }
 
+function getRoomElement(roomName){
+     let roomList = getRoomList();
+     
+      for(let i=0; i < roomList.length; i++){
+        if (roomList[i].innerText == roomName){
+            return roomList[i];            
+        }
+    }
+}
+
 function createRoom(newRoomName){
     let lists = getRoomList();
+
     let newList = document.createElement('li');
     newRoomName = newRoomName.trim();
     if (newRoomName == ""){
@@ -130,9 +141,9 @@ function restoreRooms(){
     let roomList = getRoomList();
     while (ulRooms.firstChild) {
         ulRooms.removeChild(ulRooms.firstChild);
-
     }
     let savedRoomNameList = localStorage.getItem("roomList").split(",");
+    
     for (let i = 0; i<savedRoomNameList.length; i++ ){
         let li = document.createElement('li');
         li.innerText = savedRoomNameList[i];
@@ -142,6 +153,9 @@ function restoreRooms(){
 
 window.addEventListener('beforeunload',()=>{
     saveRoomsInLocalStorage();
+    localStorage.setItem('currentRoom', currentRoom );
+
+    
 });
     
 
@@ -158,6 +172,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // saveRoomsInLocalStorage();
     restoreRooms();
     addClickEventToRoomList();
+    currentRoom = localStorage.getItem('currentRoom');
+    if( currentRoom !=="" ){
+        let currentRoomElement = getRoomElement(currentRoom);
+        currentRoomElement.dispatchEvent(new Event('click'));
+
+    }
     
 
     // document.querySelector('#btnShowRooms').onclick = () => {
