@@ -143,7 +143,11 @@ function restoreRooms(){
         ulRooms.removeChild(ulRooms.firstChild);
     }
     let savedRoomNameList = localStorage.getItem("roomList").split(",");
-    
+    // TODO: everyoneが消えてる
+    let li = document.createElement('li');
+    li.innerText = "everyone";
+    ulRooms.append(li);
+
     for (let i = 0; i<savedRoomNameList.length; i++ ){
         let li = document.createElement('li');
         li.innerText = savedRoomNameList[i];
