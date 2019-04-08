@@ -31,14 +31,15 @@ var displayName="";
 // Connect to websocket
 var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
-function getRoomList(){
+// WebPageに表示されてるroomsを取得する
+function getRoomListOnWebPage(){
     let ulRooms = document.querySelector('#rooms');
     let roomList = ulRooms.children;    
     return roomList;
 }
 
-function getRoomElement(roomName){
-     let roomList = getRoomList();
+function getRoomElementOnWebPage(roomName){
+     let roomList = getRoomListOnWebPage();
      
       for(let i=0; i < roomList.length; i++){
         if (roomList[i].innerText == roomName){
@@ -48,7 +49,7 @@ function getRoomElement(roomName){
 }
 
 function createRoom(newRoomName){
-    let lists = getRoomList();
+    let lists = getRoomListOnWebPage();
 
     let newList = document.createElement('li');
     newRoomName = newRoomName.trim();
@@ -124,7 +125,7 @@ function addClickEventToRoomList(){
 }
 
 function saveRoomsInLocalStorage(){
-    let roomList = getRoomList();
+    let roomList = getRoomListOnWebPage();
     let roomListArray = [];
     for (let i = 0; i < roomList.length; i++) {
         roomListArray.push(roomList[i].innerText);
@@ -136,35 +137,51 @@ function saveRoomsInLocalStorage(){
     console.log(localStorage.getItem("roomList"));
 }
 
-function restoreRooms(){
+function clearRoomsOnWebPage(){
     let ulRooms = document.querySelector('#rooms');
-    let roomList = getRoomList();
     while (ulRooms.firstChild) {
         ulRooms.removeChild(ulRooms.firstChild);
-    }
-    let savedRoomNameList = localStorage.getItem("roomList").split(",");
-    // TODO: everyoneが消えてる
-    let li = document.createElement('li');
-    li.innerText = "everyone";
-    ulRooms.append(li);
+    }  
+}
 
-    for (let i = 0; i<savedRoomNameList.length; i++ ){
+// Restore rooms from Localstrage
+function restoreRooms(){
+    // HTMLにあるroomsをクリア
+    clearRoomsOnWebPage();
+
+
+    let roomList = getRoomListOnWebPage();
+    let savedRoomNameList = localStorage.getItem("roomList").split(",");
+   
+    if(savedRoomNameList.length > 0){
+        for (let i = 0; i<savedRoomNameList.length; i++ ){
+            let li = document.createElement('li');
+            if(savedRoomNameList[i] !== ""){
+                //TODO:Debugging
+                li.innerText = savedRoomNameList[i];
+                ulRooms.append(li);
+            } 
+        }
+    }else{
+         // TODO: everyoneが消えてる
         let li = document.createElement('li');
-        li.innerText = savedRoomNameList[i];
+        li.innerText = "everyone";
         ulRooms.append(li);
     }
 }
 
+//ページを閉じる時
 window.addEventListener('beforeunload',()=>{
     saveRoomsInLocalStorage();
-    localStorage.setItem('currentRoom', currentRoom );
-
-    
+    if(currentRoom !== ""){
+        //TODO:For debugging a bug
+        localStorage.setItem('currentRoom', currentRoom );
+    }
 });
     
-
+//DOMドキュメントを読み終わった
 document.addEventListener('DOMContentLoaded', () => {
-
+    //Display Nameの処理
     displayName = localStorage.getItem("displayName");
     if( displayName == null || displayName =="" ){
         displayName = prompt("Input your display name!");
@@ -173,12 +190,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     }
     setDisplayName(displayName);
-    // saveRoomsInLocalStorage();
+    //ローカルストレージから戻す
     restoreRooms();
     addClickEventToRoomList();
     currentRoom = localStorage.getItem('currentRoom');
     if( currentRoom !=="" ){
-        let currentRoomElement = getRoomElement(currentRoom);
+        let currentRoomElement = getRoomElementOnWebPage(currentRoom);
         currentRoomElement.dispatchEvent(new Event('click'));
 
     }
@@ -195,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     
     document.querySelector('#sendMessage').onclick = () => {
-                    let lists = getRoomList();
+                    let lists = getRoomListOnWebPage();
                     let room;
                     for(let i=0; i<lists.length; i++){
                         let re = /(selected)/;
@@ -208,8 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     if(room === undefined){
                         alert("Please select room!");
-                        return ;
-                        
+                        return ; 
                     }
                     
                     let message = document.querySelector('#message').value;

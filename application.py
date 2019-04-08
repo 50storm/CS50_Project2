@@ -20,8 +20,7 @@ def index():
 def on_connect():
     print("connect event!!!")
     emit('connect', {'data': 'Connected'})
-    
-    
+
 @socketio.on('join')
 def on_join(data):
     print("====================================== on_join ======================================")
