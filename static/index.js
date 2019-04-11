@@ -1,8 +1,6 @@
 /*
 broadcaset=>roomに関係なく送信
-
 TODO:join roomしたときに、表示が全員にされてるぞい。。
-
 */
 
 //=============================
@@ -38,45 +36,64 @@ function getRoomListOnWebPage(){
     return roomList;
 }
 
+// room名からWebPageのroomsを検索し返却する
 function getRoomElementOnWebPage(roomName){
-     let roomList = getRoomListOnWebPage();
+    let result = "";
+    //WebPage上のroomsからroomListを取得
+    let roomList = getRoomListOnWebPage();
      
-      for(let i=0; i < roomList.length; i++){
-        if (roomList[i].innerText == roomName){
-            return roomList[i];            
+    if( roomList.length > 0 ){
+        for(let i=0; i < roomList.length; i++){
+            if (roomList[i].innerText == roomName){
+                result = roomList[i];            
+            }
         }
     }
+    return result;
 }
 
+//新しいroomを作る
 function createRoom(newRoomName){
-    let lists = getRoomListOnWebPage();
-
-    let newList = document.createElement('li');
+    // 引数チェック
     newRoomName = newRoomName.trim();
     if (newRoomName == ""){
+        //空入力だったら警告メッセを出力し、falseを返す
         alert("Input room name!");
         return false;
-
     }
 
+    // 表示されてるroomを取得し、同じ名前がチェック
+    let lists = getRoomListOnWebPage();
     for(let i=0; i < lists.length; i++){
         if (lists[i].innerText == newRoomName){
             alert(newRoomName.toString() + "  already exists. ");
             return false;            
         }
     }
-    
+
+    // liを作り追加する
+    let newList = document.createElement('li');
     newList.innerText = newRoomName;
     rooms.append( newList );
+
+    // イベントを追加する
     addClickEventToRoomList();
-    
     return true;
 }
 
-function setDisplayName(displayName){
+//Display Nameの処理
+function setDisplayName(){
+    displayName = localStorage.getItem("displayName");
+    if( displayName == null || displayName =="" ){
+        displayName = prompt("Input your display name!");
+        console.log(displayName);
+        localStorage.setItem('displayName', displayName);
+    
+    }
     document.querySelector('#displayname').innerHTML = '<span class="text-info">' + displayName + '</span>';
 }
 
+// メッセージをクリアする
 function clearMessage(){
     let receviedMeaage =  document.querySelector('#receivedMessage');
     let messages = receviedMeaage.children;
@@ -84,13 +101,15 @@ function clearMessage(){
         while (receviedMeaage.firstChild) {
             receviedMeaage.removeChild(receviedMeaage.firstChild)
         }
-    }
-    
+    }    
 }
 
+// それぞれのルームにクリックイベントを追加する
 function addClickEventToRoomList(){
-    let rooms = document.querySelector('#rooms');
-    let lists = rooms.children;
+    // let rooms = document.querySelector('#rooms');
+    // let lists = rooms.children;
+    let lists = getRoomListOnWebPage();
+
     for(let i=0; i<lists.length; i++){
         let li = lists[i];
         console.log(li);
@@ -104,8 +123,10 @@ function addClickEventToRoomList(){
                 currentRoom = li.innerText;
             }
 
-            let rooms = document.querySelector('#rooms');
-            let lists = rooms.children;
+            // let rooms = document.querySelector('#rooms');
+            // let lists = rooms.children;
+
+            let lists = getRoomListOnWebPage();
             for(let i=0; i<lists.length; i++){
                 let re = /(selected)/;
                 let li = lists[i];
@@ -124,6 +145,7 @@ function addClickEventToRoomList(){
     }
 }
 
+// ローカルストレージにroomを保存する
 function saveRoomsInLocalStorage(){
     let roomList = getRoomListOnWebPage();
     let roomListArray = [];
@@ -137,6 +159,7 @@ function saveRoomsInLocalStorage(){
     console.log(localStorage.getItem("roomList"));
 }
 
+// HTML上のroomを削除する
 function clearRoomsOnWebPage(){
     let ulRooms = document.querySelector('#rooms');
     while (ulRooms.firstChild) {
@@ -146,27 +169,37 @@ function clearRoomsOnWebPage(){
 
 // Restore rooms from Localstrage
 function restoreRooms(){
-    // HTMLにあるroomsをクリア
+    // HTMLにあるroomsをクリア(appendで追加していくので)
     clearRoomsOnWebPage();
+    // Ulタグを取得
+    ulRooms = document.querySelector('#rooms')
 
-
-    let roomList = getRoomListOnWebPage();
-    let savedRoomNameList = localStorage.getItem("roomList").split(",");
-   
-    if(savedRoomNameList.length > 0){
-        for (let i = 0; i<savedRoomNameList.length; i++ ){
-            let li = document.createElement('li');
-            if(savedRoomNameList[i] !== ""){
-                //TODO:Debugging
-                li.innerText = savedRoomNameList[i];
-                ulRooms.append(li);
-            } 
+    if( localStorage.getItem("roomList") !== null ){
+        alert("rooomList is NOT null");
+        let savedRoomNameList = localStorage.getItem("roomList").split(",");
+        alert(savedRoomNameList);
+        if(savedRoomNameList.length > 0){
+        //    if(savedRoomNameList.length > 0 && savedRoomNameList[0] !==""){
+        
+            //ローカルストレージに保存されている
+            for (let i = 0; i<savedRoomNameList.length; i++ ){
+                let li = document.createElement('li');
+                // if(savedRoomNameList[i] !== ""){
+                    //TODO:Debugging
+                    li.innerText = savedRoomNameList[i];
+                    ulRooms.append(li);
+                // } 
+            }
         }
     }else{
-         // TODO: everyoneが消えてる
+        //初回
+        alert("rooomList is NULL");
+        //ローカルストレージに保存されてない
         let li = document.createElement('li');
         li.innerText = "everyone";
         ulRooms.append(li);
+     
+
     }
 }
 
@@ -182,25 +215,26 @@ window.addEventListener('beforeunload',()=>{
 //DOMドキュメントを読み終わった
 document.addEventListener('DOMContentLoaded', () => {
     //Display Nameの処理
-    displayName = localStorage.getItem("displayName");
-    if( displayName == null || displayName =="" ){
-        displayName = prompt("Input your display name!");
-        console.log(displayName);
-        localStorage.setItem('displayName', displayName);
-    
-    }
+
     setDisplayName(displayName);
     //ローカルストレージから戻す
     restoreRooms();
+    //クリックイベントを追加する
     addClickEventToRoomList();
     currentRoom = localStorage.getItem('currentRoom');
-    if( currentRoom !=="" ){
-        let currentRoomElement = getRoomElementOnWebPage(currentRoom);
-        currentRoomElement.dispatchEvent(new Event('click'));
-
-    }
+    debugger;
+    console.log(currentRoom);
+    alert("currentRoom(リストアしたチャネル) =>" + currentRoom);
     
-
+    if( currentRoom !== null && currentRoom !== "null" && currentRoom !== "" ){
+        //今のルームがブランク
+        //let currentRoomElement = getRoomElementOnWebPage(currentRoom);
+        //TODO: Chromだとエラーとなる。
+        // currentRoomElement.dispatchEvent(new Event('click'));
+        // currentRoom.trigger('click');
+        // debugger;
+        
+    }
     // document.querySelector('#btnShowRooms').onclick = () => {
         // socket.emit('show rooms', { 'diplayName': localStorage.getItem("displayName") }); //送信
         
