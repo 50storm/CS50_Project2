@@ -104,6 +104,11 @@ function clearMessage(){
     }    
 }
 
+function clidkChannelEvent(e){
+
+
+}
+
 // それぞれのルームにクリックイベントを追加する
 function addClickEventToRoomList(){
     // let rooms = document.querySelector('#rooms');
@@ -114,8 +119,8 @@ function addClickEventToRoomList(){
         let li = lists[i];
         console.log(li);
        
-        // li.addEventListener("click", (e) => {
-        li.onclick =(e) => {
+        li.addEventListener("click", (e) => {
+        // li.onclick =(e) => {
             console.log(li.innerText);  
 
             if (currentRoom !== li.innerText){
@@ -138,10 +143,9 @@ function addClickEventToRoomList(){
             }
             li.classList.add('selected','text-info');
             // let displayName = document.querySelector('#displayname').innerHTML;
-            
             socket.emit('join', { 'room': currentRoom, "displayName": displayName}); //送信                 
-        };
-        // });
+        //};
+        });
     }
 }
 
@@ -228,11 +232,25 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if( currentRoom !== null && currentRoom !== "null" && currentRoom !== "" ){
         //今のルームがブランク
-        //let currentRoomElement = getRoomElementOnWebPage(currentRoom);
+        let currentRoomElement = getRoomElementOnWebPage(currentRoom);
         //TODO: Chromだとエラーとなる。
-        // currentRoomElement.dispatchEvent(new Event('click'));
+        currentRoomElement.dispatchEvent(new Event('click'));
+
+        //TODO:途中
+        // var event = document.createEvent('Event');
+        // event.initEvent('click', true, true);
+        // currentRoomElement.addEventListener('click', function(e)=>{
+
+        // },false);
+
+
         // currentRoom.trigger('click');
         // debugger;
+        // document.querySelector('#' + currentRoom ).click();
+        //$('#' + currentRoom ).trigger('click'); // TGODO:jQUeryでclickイベントをつけないとダメらしい。。
+        // setTimeout(()=>{
+        //     document.querySelector('#' + currentRoom ).click(),1000
+        // });
         
     }
     // document.querySelector('#btnShowRooms').onclick = () => {
