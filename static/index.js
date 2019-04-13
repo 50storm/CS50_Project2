@@ -104,15 +104,8 @@ function clearMessage(){
     }    
 }
 
-function clidkChannelEvent(e){
-
-
-}
-
 // それぞれのルームにクリックイベントを追加する
 function addClickEventToRoomList(){
-    // let rooms = document.querySelector('#rooms');
-    // let lists = rooms.children;
     let lists = getRoomListOnWebPage();
 
     for(let i=0; i<lists.length; i++){
@@ -120,16 +113,12 @@ function addClickEventToRoomList(){
         console.log(li);
        
         li.addEventListener("click", (e) => {
-        // li.onclick =(e) => {
             console.log(li.innerText);  
 
             if (currentRoom !== li.innerText){
                 clearMessage();
                 currentRoom = li.innerText;
             }
-
-            // let rooms = document.querySelector('#rooms');
-            // let lists = rooms.children;
 
             let lists = getRoomListOnWebPage();
             for(let i=0; i<lists.length; i++){
@@ -142,9 +131,7 @@ function addClickEventToRoomList(){
                 }
             }
             li.classList.add('selected','text-info');
-            // let displayName = document.querySelector('#displayname').innerHTML;
             socket.emit('join', { 'room': currentRoom, "displayName": displayName}); //送信                 
-        //};
         });
     }
 }
@@ -179,25 +166,20 @@ function restoreRooms(){
     ulRooms = document.querySelector('#rooms')
 
     if( localStorage.getItem("roomList") !== null ){
-        alert("rooomList is NOT null");
+        // alert("rooomList is NOT null");
         let savedRoomNameList = localStorage.getItem("roomList").split(",");
-        alert(savedRoomNameList);
+        // alert(savedRoomNameList);
         if(savedRoomNameList.length > 0){
-        //    if(savedRoomNameList.length > 0 && savedRoomNameList[0] !==""){
-        
             //ローカルストレージに保存されている
             for (let i = 0; i<savedRoomNameList.length; i++ ){
                 let li = document.createElement('li');
-                // if(savedRoomNameList[i] !== ""){
-                    //TODO:Debugging
                     li.innerText = savedRoomNameList[i];
                     ulRooms.append(li);
-                // } 
             }
         }
     }else{
         //初回
-        alert("rooomList is NULL");
+        // alert("rooomList is NULL");
         //ローカルストレージに保存されてない
         let li = document.createElement('li');
         li.innerText = "everyone";
@@ -228,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
     currentRoom = localStorage.getItem('currentRoom');
     debugger;
     console.log(currentRoom);
-    alert("currentRoom(リストアしたチャネル) =>" + currentRoom);
+    // alert("currentRoom(リストアしたチャネル) =>" + currentRoom);
     
     if( currentRoom !== null && currentRoom !== "null" && currentRoom !== "" ){
         //今のルームがブランク
@@ -281,8 +263,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     
                     let message = document.querySelector('#message').value;
-                    // alert(message);
-                    // socket.emit('send message', {'room': room, 'message': message}); //送信
                     socket.emit('send message', {'room': room, 'message': message, 'displayName': displayName}); //送信
     };
     
