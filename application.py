@@ -7,9 +7,13 @@ from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, ro
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
-
+#dictronary
 chat_data={} # chat_data = {"room": "", "message": "" }
+chat_counter={}
 room="";
+
+#CONSTANT VALUES
+MAX_MESSAGE = 3
 
 @app.route("/")
 def index():
@@ -33,8 +37,11 @@ def on_join(data):
     join_room(room)
     msg =  str(display_name)  + ' has entered ' + room + " " + str_now
 
+    #まだルームがない場合は、初期化する
     if not room in chat_data.keys() :
         chat_data[room] = ""
+        chat_counter[room] = 0
+    
     emit("join room message from server", (msg, chat_data, room), room=room)
 
 @socketio.on("send message")
@@ -57,13 +64,21 @@ def on_message(data):
     
     #メッセージを追加
     if room in chat_data.keys() :
-        #<br/>でメッセージ追加
-        chat_data[room] = chat_data[room] + message + "<br/>"
+        if chat_counter[room] >= MAX_MESSAGE :
+            emit("message from server", "[ Reached the maximum record ]", room=room)
+            return
+        else :
+            #<br/>でメッセージ追加
+            chat_data[room] = chat_data[room] + message + "<br/>"
     else:
         #初めてのメッセージ
         chat_data[room] = message + "<br/>"
-
+    
+    #カウントアップ
+    chat_counter[room] = chat_counter[room] + 1
+    #DEBUG
     print("chat_data[room] " + chat_data[room])
+    print("chat_counter[room] " + str(chat_counter[room]))
     # print("message " + message)
     emit("message from server", message, room=room)
 
