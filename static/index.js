@@ -277,7 +277,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('message from server', data => {
         console.log(data);
-        
+
+        // let menu = '<div><span style="color:red;">Delete</span></div>';
+
+        // document.querySelector('#receivedMessage').innerHTML += data + menu + "<br />";
         document.querySelector('#receivedMessage').innerHTML += data + "<br />";
         
     });

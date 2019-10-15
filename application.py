@@ -12,8 +12,8 @@ chat_data={} # chat_data = {"room": "", "message": "" }
 chat_counter={}
 room="";
 
-#CONSTANT VALUES
-MAX_MESSAGE = 3
+#CONSTANT VALUES / 最大メッセージ数
+MAX_MESSAGE = 500
 
 @app.route("/")
 def index():
@@ -77,8 +77,19 @@ def on_message(data):
     #カウントアップ
     chat_counter[room] = chat_counter[room] + 1
     #DEBUG
+    print("DEBUG==========================================")
     print("chat_data[room] " + chat_data[room])
     print("chat_counter[room] " + str(chat_counter[room]))
+    print("DEBUG==========================================")
+'''
+previous data is saved on tfe browzer(front end).=> needs to remove from browzer and memory...
+find data by name and datetime
+
+DEBUG==========================================
+chat_data[room] brave_iga aaaaa 2019/10/15 16:57:57<br/>brave_iga BBB 2019/10/15 16:58:13<br/>
+chat_counter[room] 2
+DEBUG==========================================
+'''
     # print("message " + message)
     emit("message from server", message, room=room)
 
