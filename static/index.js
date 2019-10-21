@@ -127,10 +127,11 @@ function addClickEventToRoomList(){
                 let boolResult = re.test(li.className);
                     console.log("boolResult " + boolResult);
                 if(boolResult){
-                    li.classList.remove('selected','text-info');
+                    li.classList.remove('selected','text-danger');
                 }
             }
-            li.classList.add('selected','text-info');
+            li.classList.add('selected','text-danger');
+
             socket.emit('join', { 'room': currentRoom, "displayName": displayName}); //送信                 
         });
     }
