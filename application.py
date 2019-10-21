@@ -81,15 +81,7 @@ def on_message(data):
     print("chat_data[room] " + chat_data[room])
     print("chat_counter[room] " + str(chat_counter[room]))
     print("DEBUG==========================================")
-'''
-previous data is saved on tfe browzer(front end).=> needs to remove from browzer and memory...
-find data by name and datetime
 
-DEBUG==========================================
-chat_data[room] brave_iga aaaaa 2019/10/15 16:57:57<br/>brave_iga BBB 2019/10/15 16:58:13<br/>
-chat_counter[room] 2
-DEBUG==========================================
-'''
     # print("message " + message)
     emit("message from server", message, room=room)
 
