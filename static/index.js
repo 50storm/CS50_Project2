@@ -29,6 +29,15 @@ var displayName="";
 // Connect to websocket
 var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
 
+// 削除
+function deleteMessage(uuid){
+
+    if(!confirm('Are you sure?')){
+        return false;
+    }
+    socket.emit('delete message', {'room': currentRoom, 'uuid': uuid, 'displayName': displayName}); //送信  
+}
+
 // WebPageに表示されてるroomsを取得する
 function getRoomListOnWebPage(){
     let ulRooms = document.querySelector('#rooms');
@@ -279,10 +288,10 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('message from server', data => {
         console.log(data);
 
-        // let menu = '<div><span style="color:red;">Delete</span></div>';
-
-        // document.querySelector('#receivedMessage').innerHTML += data + menu + "<br />";
-        document.querySelector('#receivedMessage').innerHTML += data + "<br />";
+        let splitedData = data.split('|');
+        let uuid4 = splitedData[1];
+        let delete_button = '&nbsp;&nbsp;<span  id="'+ uuid4 +'"style="color:red;" onclick=deleteMessage("' +  uuid4 + '")  >Delete</span>';
+        document.querySelector('#receivedMessage').innerHTML += splitedData[0] + delete_button + '<br />' ;
         
     });
     
@@ -290,10 +299,30 @@ document.addEventListener('DOMContentLoaded', () => {
         if(room === currentRoom){
             if (Object.keys(chat_data).length !== 0) {
                 if(chat_data[ room ] !== ""){
-                    document.querySelector('#receivedMessage').innerHTML += chat_data[ room ] + "<br />";
+                    // document.querySelector('#receivedMessage').innerHTML += chat_data[ room ] + "<br />";
+                    // console.log(chat_data);
+                    let splitedData = chat_data[ room ] .split('|');
+                    console.log(splitedData);
+                    //TODO: loop
+                    let uuid4;
+                    let msg;
+                    for(let i=0; i<splitedData.length-1 ; i=i+2){
+                        console.log(splitedData[i]);
+                        msg  = splitedData[i];
+                        uuid4 = splitedData[i+1];
+                        let delete_button = '&nbsp;&nbsp;<span  id="'+ uuid4 +'"style="color:red;" onclick=deleteMessage("' +  uuid4 + '")  >Delete</span>';
+                        document.querySelector('#receivedMessage').innerHTML += msg + delete_button + '<br />' ;
+
+                    }
                 }
             }
-            document.querySelector('#receivedMessage').innerHTML += msg + "<br />";
+
+
+
+            // let uuid4 = splitedData[1];
+            // let delete_button = '&nbsp;&nbsp;<span  id="'+ uuid4 +'"style="color:red;" onclick=deleteMessage("' +  uuid4 + '")  >Delete</span>';
+            // document.querySelector('#receivedMessage').innerHTML += splitedData[0] + delete_button + '<br />' ;
+            
         }
         
     });

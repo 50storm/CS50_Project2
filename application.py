@@ -1,12 +1,13 @@
 import os
 import datetime
+import uuid
 
 from flask import Flask, jsonify, render_template, request
 from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
-socketio = SocketIO(app)
+socketio = SocketIO(app, binary=True)
 #dictronary
 chat_data={} # chat_data = {"room": "", "message": "" }
 chat_counter={}
@@ -58,7 +59,7 @@ def on_message(data):
     str_now = now.strftime("%Y/%m/%d %H:%M:%S")
 
     #メッセージを作る
-    message = displayName + " " + str(message_from_client)  + " " + str_now
+    message = displayName + " " + str(message_from_client)  + " " + str_now + "|" + str(uuid.uuid4())  + "|"
 
     #メッセージがN件ですか？
     
@@ -69,10 +70,11 @@ def on_message(data):
             return
         else :
             #<br/>でメッセージ追加
-            chat_data[room] = chat_data[room] + message + "<br/>"
+            chat_data[room] = chat_data[room] + message
     else:
         #初めてのメッセージ
-        chat_data[room] = message + "<br/>"
+        chat_data[room] = message
+    # chat_data[room] += "|" + str(uuid.uuid4())
     
     #カウントアップ
     chat_counter[room] = chat_counter[room] + 1
@@ -84,6 +86,12 @@ def on_message(data):
 
     # print("message " + message)
     emit("message from server", message, room=room)
+
+@socketio.on("delete message")
+def on_delete(data):
+    print("==================================== on delete ========================================= ")
+    print(data)
+
 
  # if __name__ == '__main__':
  #    socketio.run(app)
