@@ -173,9 +173,12 @@ function restoreRooms(){
     // HTMLにあるroomsをクリア(appendで追加していくので)
     clearRoomsOnWebPage();
     // Ulタグを取得
-    ulRooms = document.querySelector('#rooms')
+    ulRooms = document.querySelector('#rooms');
 
-    if( localStorage.getItem("roomList") !== null ){
+    console.log("===========debug==========");
+    console.log(localStorage.getItem("roomList"));
+
+    if( localStorage.getItem("roomList") !== null && localStorage.getItem("roomList") !=="[]" ){
         // alert("rooomList is NOT null");
         let savedRoomNameList = localStorage.getItem("roomList").split(",");
         // alert(savedRoomNameList);
@@ -218,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //クリックイベントを追加する
     addClickEventToRoomList();
     currentRoom = localStorage.getItem('currentRoom');
-    debugger;
+    // debugger;
     console.log(currentRoom);
     // alert("currentRoom(リストアしたチャネル) =>" + currentRoom);
     
@@ -285,45 +288,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
-    socket.on('message from server', data => {
-        console.log(data);
+    socket.on('message from server', (data) => {
+        // TODO :取り込み中
+        console.log('message from server');
+        console.log(JSON.parse(data));
 
-        let splitedData = data.split('|');
-        let uuid4 = splitedData[1];
-        let delete_button = '&nbsp;&nbsp;<span  id="'+ uuid4 +'"style="color:red;" onclick=deleteMessage("' +  uuid4 + '")  >Delete</span>';
-        document.querySelector('#receivedMessage').innerHTML += splitedData[0] + delete_button + '<br />' ;
+        // let splitedData = data.split(':');
+        // console.log(splitedData);
+
+
+        // let uuid4 = splitedData[1];
+        // let delete_button = '&nbsp;&nbsp;<span  id="'+ uuid4 +'"style="color:red;" onclick=deleteMessage("' +  uuid4 + '")  >Delete</span>';
+        // document.querySelector('#receivedMessage').innerHTML += splitedData[0] + delete_button + '<br />' ;
         
     });
     
     socket.on('join room message from server', (msg, chat_data, room) => {
-        if(room === currentRoom){
-            if (Object.keys(chat_data).length !== 0) {
-                if(chat_data[ room ] !== ""){
-                    // document.querySelector('#receivedMessage').innerHTML += chat_data[ room ] + "<br />";
-                    // console.log(chat_data);
-                    let splitedData = chat_data[ room ] .split('|');
-                    console.log(splitedData);
-                    //TODO: loop
-                    let uuid4;
-                    let msg;
-                    for(let i=0; i<splitedData.length-1 ; i=i+2){
-                        console.log(splitedData[i]);
-                        msg  = splitedData[i];
-                        uuid4 = splitedData[i+1];
-                        let delete_button = '&nbsp;&nbsp;<span  id="'+ uuid4 +'"style="color:red;" onclick=deleteMessage("' +  uuid4 + '")  >Delete</span>';
-                        document.querySelector('#receivedMessage').innerHTML += msg + delete_button + '<br />' ;
-
-                    }
-                }
-            }
+        // TODO :取り込み中
+        console.log("join room message from server");
+        console.log(msg);
+        console.log(chat_data);
+        console.log(room);
+        // for()
 
 
 
-            // let uuid4 = splitedData[1];
-            // let delete_button = '&nbsp;&nbsp;<span  id="'+ uuid4 +'"style="color:red;" onclick=deleteMessage("' +  uuid4 + '")  >Delete</span>';
-            // document.querySelector('#receivedMessage').innerHTML += splitedData[0] + delete_button + '<br />' ;
+        // if(room === currentRoom){
+        //     if (Object.keys(chat_data).length !== 0) {
+        //         if(chat_data[ room ] !== ""){
+        //             // document.querySelector('#receivedMessage').innerHTML += chat_data[ room ] + "<br />";
+        //             // console.log(chat_data);
+        //             let splitedData = chat_data[ room ] .split('|');
+        //             console.log(splitedData);
+        //             //TODO: loop
+        //             let uuid4;
+        //             let msg;
+        //             for(let i=0; i<splitedData.length-1 ; i=i+2){
+        //                 console.log(splitedData[i]);
+        //                 msg  = splitedData[i];
+        //                 uuid4 = splitedData[i+1];
+        //                 let delete_button = '&nbsp;&nbsp;<span  id="'+ uuid4 +'"style="color:red;" onclick=deleteMessage("' +  uuid4 + '")  >Delete</span>';
+        //                 document.querySelector('#receivedMessage').innerHTML += msg + delete_button + '<br />' ;
+
+        //             }
+        //         }
+        //     }
+
+
+
+        //     // let uuid4 = splitedData[1];
+        //     // let delete_button = '&nbsp;&nbsp;<span  id="'+ uuid4 +'"style="color:red;" onclick=deleteMessage("' +  uuid4 + '")  >Delete</span>';
+        //     // document.querySelector('#receivedMessage').innerHTML += splitedData[0] + delete_button + '<br />' ;
             
-        }
+        // }
         
     });
  
